@@ -47,7 +47,7 @@ resource "hcloud_firewall" "basic_firewall" {
   name = var.cluster_firewall_name
   labels = {
     cluster = var.cluster_name
-    env     = var.env
+    environment     = var.environment
   }
 }
 
@@ -60,7 +60,7 @@ resource "hcloud_server" "master-node" {
   ssh_keys = concat([hcloud_ssh_key.master_node_key.name], data.hcloud_ssh_keys.all_keys.ssh_keys.*.name)
 
   labels = {
-    env  = var.env
+    environment  = var.environment
     node = "master"
   }
 
@@ -102,7 +102,7 @@ resource "hcloud_server" "worker-nodes" {
   location    = var.cluster_location
 
   labels = {
-    env  = var.env
+    environment  = var.environment
     node = "worker"
   }
 
@@ -178,14 +178,3 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "ingress-nginx" {
-  name = "ingress"
-
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  namespace        = "ingress"
-  create_namespace = true
-  version          = var.cluster_nginx_ingress_version
-
-  depends_on = [ local_sensitive_file.kubeconfig ]
-}

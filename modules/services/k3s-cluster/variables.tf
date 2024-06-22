@@ -4,7 +4,7 @@ variable "hcloud_token" {
   description = "Hetzner Cloud API token"
 }
 
-variable "env" {
+variable "environment" {
   description = "The name to use for all the cluster resources"
   type        = string
   nullable = false
