@@ -4,16 +4,22 @@ variable "hcloud_token" {
   description = "Hetzner Cloud API token"
 }
 
+variable "labels" {
+  type        = map(string)
+  description = "Labels to apply to all resources"
+  default     = {
+    environment = "production"
+  }
+}
+
 variable "environment" {
   description = "The name to use for all the cluster resources"
   type        = string
-  nullable = false
 }
 
 variable "cluster_name" {
   description = "The name to use for all the cluster resources"
   type        = string
-  nullable = false
 }
 
 variable "cluster_server_os" {
@@ -129,91 +135,4 @@ variable "cluster_firewall_name" {
   description = "The name to use for the firewall."
   type        = string
   default     = "k3s-firewall"
-}
-
-# variable "cluster_firewall_rules" {
-#   description = "The rules to use for the firewall."
-#   type = list(object({
-#     description     = string
-#     direction       = string
-#     protocol        = string
-#     port            = string
-#     source_ips      = list(string)
-#     destination_ips = list(string)
-#   }))
-#   default = [
-#     {
-#       description = "SSH: Allow all incoming traffic on port 22"
-#       direction   = "in"
-#       protocol    = "tcp"
-#       port        = "22"
-#       source_ips = [
-#         "0.0.0.0/0",
-#         "::/0"
-#       ]
-#     },
-#     {
-#       description = "HTTPS: Allow all incoming traffic on port 443"
-#       direction   = "in"
-#       protocol    = "tcp"
-#       port        = "443"
-#       source_ips = [
-#         "0.0.0.0/0"
-#       ]
-#     },
-#     {
-#       description = "HTTPS: Allow all incoming traffic on port 443"
-#       direction   = "out"
-#       protocol    = "tcp"
-#       port        = "443"
-#       destination_ips = [
-#         "0.0.0.0/0", "::/0"
-#       ]
-#     },
-#     {
-#       description = "HTTP: Allow all incoming traffic on port 80"
-#       direction   = "out"
-#       protocol    = "tcp"
-#       port        = "80"
-#       destination_ips = [
-#         "0.0.0.0/0", "::/0"
-#       ]
-#     },
-#     {
-#       description = "K3s: Allow all incoming traffic on port 2379-2380"
-#       direction   = "in"
-#       protocol    = "tcp"
-#       port        = "2379-2380"
-#       source_ips = [
-#         "0.0.0.0/0",
-#         "::/0"
-#       ]
-#     },
-#     {
-#       description = "K3s: Allow all incoming traffic on port 6443"
-#       direction   = "in"
-#       protocol    = "tcp"
-#       port        = "6443"
-#       source_ips = [
-#         "0.0.0.0/0",
-#         "::/0"
-#       ]
-#     },
-#     {
-#       description = "ICMP: Allow all incoming traffic"
-#       direction   = "in"
-#       protocol    = "icmp"
-#       source_ips = [
-#         "0.0.0.0/0",
-#         "::/0"
-#       ]
-#     }
-#   ]
-# }
-
-variable "cluster_nginx_ingress_version" {
-  description = "The version of the nginx ingress controller to install."
-  type        = string
-  default     = "4.10.1"
-  
 }
